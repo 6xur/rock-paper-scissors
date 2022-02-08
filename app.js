@@ -70,4 +70,4 @@ function game(){
     console.log(playerWins + " | " + computerWins)
 }
 
-game();
+//game();
