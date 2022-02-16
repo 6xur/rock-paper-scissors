@@ -3,9 +3,6 @@
     padding: 0;
 }
 
-html {
-    background-color: black;
-}
 
 body {
     font-family: Helvetica, Arial, sans-serif;
@@ -13,7 +10,6 @@ body {
 }
 
 section {
-    width: 70%;
     height: 100vh;
     padding-top: 2em;
     margin: auto;
@@ -26,12 +22,12 @@ section {
     align-items: center;
 }
 
-.score h2 {
+.scores h2 {
     font-size: 20px;
     color: whitesmoke;
 }
 
-.score p {
+.scores p {
     font-size: 22px;
     padding: 10px;
     color: white;
@@ -45,7 +41,9 @@ section {
     justify-content: space-around;
 }
 
-.option {
+.rock,
+.paper,
+.scissors {
     display: inline-block;
     border: 2px solid #f6f6f6;
     border-radius: 50%;

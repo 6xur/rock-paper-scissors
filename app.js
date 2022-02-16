@@ -1,8 +1,34 @@
-function computerPlay(){
-    const moves = ["Rock", "Paper", "Scissors"];
-    var move = moves[Math.floor(Math.random()*moves.length)];
-    return move;
+// playMatch
+function playMatch(){
+    const playerHand = document.querySelector('.player-hand');
+    const computerHand = document.querySelector('.computer-hand');
+
+    const moves = ["rock", "paper", "scissors"];
+
+    const options = Array.from(document.querySelectorAll('.options div'));
+    options.forEach(option => {
+        option.addEventListener('click', function(){
+            // Computer Choice
+            const computerChoise = moves[Math.floor(Math.random()*moves.length)];
+            // Here we call compareHands
+            console.log(computerChoise)
+            const playerChoice = "scissors";
+            compareHands(playerChoice, computerChoise);
+        })
+    });
+
+};
+
+function compareHands(playerChoice, computerChoice){
+    // Update text
+    const playerWins = document.querySelector('.player-wins p');
+    console.log(playerWins.textContent);
+
+    if(playerChoice == computerChoice){
+
+    }
 }
+
 
 
 function playRound(playerSelection, computerSelection){
@@ -47,27 +73,7 @@ function getPlayerSelection(message){
 }
 
 function game(){
-    var playerWins = 0;
-    var computerWins = 0;
-    for(let i = 0; i < 5; i++){
-        const playerSelection = getPlayerSelection("Enter your selection: ");
-        const computerSelection = computerPlay();
-        const result = playRound(playerSelection, computerSelection);
-        console.log(result);
-        if(result.includes("win")){
-            playerWins++;
-        } else if(result.includes("lose")){
-            computerWins++;
-        }
-    }
-    if(playerWins > computerWins){
-        console.log("You win!");
-    } else if(playerWins < computerWins){
-        console.log("You lose!");
-    } else{
-        console.log("It's a draw!");
-    }
-    console.log(playerWins + " | " + computerWins)
+    playMatch();
 }
 
-//game();
+game();
