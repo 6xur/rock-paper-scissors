@@ -9,10 +9,8 @@ body {
     text-align: center;
 }
 
-section {
-    height: 100vh;
-    padding-top: 2em;
-    margin: auto;
+html {
+    padding-top: 3em;
     background-color: #222831;
 }
 
