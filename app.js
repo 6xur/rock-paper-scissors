@@ -2,6 +2,13 @@
 function playMatch(){
     const playerHand = document.querySelector('.player-hand');
     const computerHand = document.querySelector('.computer-hand');
+    const hands = document.querySelectorAll('.hands img');
+    
+    hands.forEach(hand =>{
+        hand.addEventListener('animationend', function(){
+            this.style.animation = '';
+        })
+    })
 
     const moves = ["rock", "paper", "scissors"];
 
@@ -12,13 +19,18 @@ function playMatch(){
             const computerChoise = moves[Math.floor(Math.random()*moves.length)];
             // Here we call compareHands
             const playerChoice = this.className;
-            compareHands(playerChoice, computerChoise);
 
+            setTimeout(() =>{
+                compareHands(playerChoice, computerChoise);
 
-            // Update Images
-            playerHand.src = `./assets/${this.className}.png`;
-            computerHand.src = `./assets/${computerChoise}.png`;
+                // Update Images
+                playerHand.src = `./assets/${this.className}.png`;
+                computerHand.src = `./assets/${computerChoise}.png`;
+            }, 1000)
             
+            // Animation
+            playerHand.style.animation = "shakePlayer 1s ease";
+            computerHand.style.animation = "shakeComputer 1s ease";
         })
     });
 
@@ -29,11 +41,7 @@ function compareHands(playerChoice, computerChoice){
     const playerWins = document.querySelector('.player-wins p');
     const computerWins = document.querySelector('.computer-wins p');
     const ties = document.querySelector('.ties p');
-   
-    //console.log(playerWins.textContent);
-    //console.log(computerWins.textContent);
-    //console.log(ties.textContent);
-    
+
 
     // checking for a tie
     if(playerChoice === computerChoice){
