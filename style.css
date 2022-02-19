@@ -42,17 +42,19 @@ html {
 }
 
 
-.rock,
-.paper,
-.scissors {
-    display: inline-block;
+.options div {
     border: 2px solid #f6f6f6;
-    border-radius: 50%;
     text-align: center;
     background-color:#0f0f0f;
     padding: 16px;
     font-size: 48px;
+    border-radius: 50%;
     cursor: pointer;
+}
+
+.user-hover { 
+  border-color: #ffc600;
+  box-shadow: 0 0 1rem #ffc600;
 }
 
 .player-hand {

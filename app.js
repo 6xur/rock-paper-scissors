@@ -1,4 +1,11 @@
-// playMatch
+function removeHover(){
+    this.classList.remove('user-hover');
+}
+
+function userHover() {
+    this.classList.add('user-hover');
+}
+
 function playMatch(){
     const playerHand = document.querySelector('.player-hand');
     const computerHand = document.querySelector('.computer-hand');
@@ -15,12 +22,11 @@ function playMatch(){
     const options = Array.from(document.querySelectorAll('.options div'));
     options.forEach(option => {
         option.addEventListener('click', function(){
-            // Computer Choice
             const computerChoise = moves[Math.floor(Math.random()*moves.length)];
-            // Here we call compareHands
             const playerChoice = this.className;
 
             setTimeout(() =>{
+                // update scores
                 compareHands(playerChoice, computerChoise);
 
                 // Update Images
@@ -33,6 +39,10 @@ function playMatch(){
             computerHand.style.animation = "shakeComputer 1s ease";
         })
     });
+
+    // for some reason adding hover effect messes with the score
+    //options.forEach(option => option.addEventListener('mouseover', userHover));
+    //options.forEach(option => option.addEventListener('mouseleave', removeHover));
 
 };
 
