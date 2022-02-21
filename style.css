@@ -5,9 +5,8 @@
 
 
 body {
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     text-align: center;
-    
 }
 
 html {
@@ -15,35 +14,37 @@ html {
     background-color: #222831;
 }
 
-.scores {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+.round {
+  margin: 0 auto;
+  font-size: 24px;
+  color: #e62649;
 }
 
 .scores h2 {
     font-size: 20px;
-    color: whitesmoke;
+    color: grey;
 }
 
 .scores p {
-    font-size: 22px;
+    font-size: 38px;
     padding: 10px;
     color: white;
 }
 
-
-
-.options,
-.hands {
+.scores,
+.hands,
+.moves {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
 }
 
+.scores {
+  padding-top: 2em;
+}
 
-.options div {
-    border: 2px solid #f6f6f6;
+.moves div {
+    border: 3px solid #f6f6f6;
     text-align: center;
     background-color:#0f0f0f;
     padding: 16px;
@@ -60,17 +61,6 @@ html {
 .player-hand {
     transform: rotateY(180deg);
 }
-
-div.fadeOut {
-    opacity: 0;
-    pointer-events: none;
-}
-
-div.fadeIn {
-    opacity: 1;
-    pointer-events: all;
-}
-
 
 @keyframes shakePlayer {
     0% {

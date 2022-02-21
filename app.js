@@ -7,9 +7,9 @@ function userHover() {
 }
 
 function playMatch(){
+    const hands = document.querySelectorAll('.hands img');
     const playerHand = document.querySelector('.player-hand');
     const computerHand = document.querySelector('.computer-hand');
-    const hands = document.querySelectorAll('.hands img');
     
     hands.forEach(hand =>{
         hand.addEventListener('animationend', function(){
@@ -17,17 +17,16 @@ function playMatch(){
         })
     })
 
-    const moves = ["rock", "paper", "scissors"];
-
-    const options = Array.from(document.querySelectorAll('.options div'));
-    options.forEach(option => {
-        option.addEventListener('click', function(){
-            const computerChoise = moves[Math.floor(Math.random()*moves.length)];
+    const moves = Array.from(document.querySelectorAll('.moves div'));
+    moves.forEach(move => {
+        move.addEventListener('click', function(){
+            const computerChoise = nextMove();
             const playerChoice = this.className;
 
             setTimeout(() =>{
                 // update scores
                 compareHands(playerChoice, computerChoise);
+                incrementRound();
 
                 // Update Images
                 playerHand.src = `./assets/${this.className}.png`;
@@ -44,7 +43,18 @@ function playMatch(){
     //options.forEach(option => option.addEventListener('mouseover', userHover));
     //options.forEach(option => option.addEventListener('mouseleave', removeHover));
 
-};
+}
+
+function nextMove(){
+    const moves = ["rock", "paper", "scissors"];
+    return moves[Math.floor(Math.random() * moves.length)];
+}
+
+function incrementRound(){
+    const round = document.querySelector('.round');
+    var newRoundNumber = Number(round.textContent.slice(round.textContent.length - 1)) + 1;
+    round.textContent = "ROUND " + newRoundNumber;
+}
 
 function compareHands(playerChoice, computerChoice){
     // Update text
