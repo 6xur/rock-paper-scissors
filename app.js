@@ -29,14 +29,19 @@ function playMatch(){
                 incrementRound();
 
                 // Update Images
-                playerHand.src = `./assets/${this.className}.png`;
+                playerHand.src = `./assets/${playerChoice}.png`;
                 computerHand.src = `./assets/${computerChoise}.png`;
+
+                // Remove shadow
+                move.classList.remove('user-hover');
             }, 1000)
-            
+
+            move.classList.add('user-hover');
+
             // Animation
             playerHand.style.animation = "shakePlayer 1s ease";
             computerHand.style.animation = "shakeComputer 1s ease";
-        })
+        });
     });
 
     // for some reason adding hover effect messes with the score

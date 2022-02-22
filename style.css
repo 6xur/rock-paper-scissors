@@ -3,7 +3,6 @@
     padding: 0;
 }
 
-
 body {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
@@ -17,7 +16,7 @@ html {
 .round {
   margin: 0 auto;
   font-size: 24px;
-  color: #e62649;
+  color: #55e7fc;
 }
 
 .scores h2 {
@@ -46,11 +45,12 @@ html {
 .moves div {
     border: 3px solid #f6f6f6;
     text-align: center;
-    background-color:#0f0f0f;
+    background: linear-gradient(45deg, #0162c8, #55e7fc);
     padding: 16px;
     font-size: 48px;
-    border-radius: 50%;
+    border-radius: 3em;
     cursor: pointer;
+    transition: all .5s linear;
 }
 
 .user-hover { 
