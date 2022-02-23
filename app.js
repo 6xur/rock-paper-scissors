@@ -15,24 +15,26 @@ function playMatch(){
             const computerChoise = nextMove();
             const playerChoice = this.className;
 
-            setTimeout(() =>{
-                // update scores
-                compareHands(playerChoice, computerChoise);
-                incrementRound();
-
-                // Update Images
-                playerHand.src = `./assets/${playerChoice}.png`;
-                computerHand.src = `./assets/${computerChoise}.png`;
-
-                // Remove shadow
-                move.classList.remove('user-hover');
-            }, 1000)
-
-            move.classList.add('user-hover');
+            this.classList.add('user-hover');
 
             // Animation
             playerHand.style.animation = "shakePlayer 1s ease";
             computerHand.style.animation = "shakeComputer 1s ease";
+
+            setTimeout(() =>{
+                // Update Images
+                playerHand.src = `./assets/${playerChoice}.png`;
+                computerHand.src = `./assets/${computerChoise}.png`;
+                
+                // update scores
+                compareHands(playerChoice, computerChoise);
+                incrementRound();
+
+                // Remove shadow
+                this.classList.remove('user-hover');
+            }, 1000)
+
+            
         });
     });
 
@@ -57,46 +59,25 @@ function compareHands(playerChoice, computerChoice){
     const computerWins = document.querySelector('.computer-wins p');
     const ties = document.querySelector('.ties p');
 
+    const rpsWin = {
+        "rock" : "scissors",
+        "paper" : "rock",
+        "scissors" : "paper"
+    }
 
-    // checking for a tie
-    if(playerChoice === computerChoice){
+    const rpsLose = {
+        "rock" : "paper",
+        "paper" : "scissors",
+        "scissors" : "rock"
+    }
+
+    if(rpsWin[playerChoice] === computerChoice){  // player wins
+        playerWins.textContent = Number(playerWins.textContent) + 1;
+    } else if(rpsLose[playerChoice] === computerChoice){  // computer wins
+        computerWins.textContent = Number(computerWins.textContent) + 1;
+    } else{  // tie
         ties.textContent = Number(ties.textContent) + 1;
-        return;
     }
-
-    // check for rock
-    if(playerChoice === 'rock'){
-        if(computerChoice === 'scissors'){
-            playerWins.textContent = Number(playerWins.textContent) + 1;
-            return;
-        } else{
-            computerWins.textContent = Number(computerWins.textContent) + 1;
-            return;
-        }
-    }
-
-    // check for paper
-    if(playerChoice === 'paper'){
-        if(computerChoice === 'rock'){
-            playerWins.textContent = Number(playerWins.textContent) + 1;
-            return;
-        } else{
-            computerWins.textContent = Number(computerWins.textContent) + 1;
-            return;
-        }
-    }
-
-    // check for scissors
-    if(playerChoice === 'scissors'){
-        if(computerChoice === 'paper'){
-            playerWins.textContent = Number(playerWins.textContent) + 1;
-            return;
-        } else{
-            computerWins.textContent = Number(computerWins.textContent) + 1;
-            return;
-        }
-    }
-
 }
 
 
