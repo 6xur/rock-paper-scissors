@@ -18,8 +18,10 @@ function playMatch(){
             this.classList.add('user-hover');
 
             // Animation
-            playerHand.style.animation = "shakePlayer 1s ease";
-            computerHand.style.animation = "shakeComputer 1s ease";
+            playerHand.classList.add('shake-player-animation');
+            computerHand.classList.add('shake-computer-animation');
+            //playerHand.style.animation = "shakePlayer 1s ease";
+            //computerHand.style.animation = "shakeComputer 1s ease";
 
             setTimeout(() =>{
                 // Update Images
@@ -32,6 +34,8 @@ function playMatch(){
 
                 // Remove shadow
                 this.classList.remove('user-hover');
+                playerHand.classList.remove('shake-player-animation');
+                computerHand.classList.remove('shake-computer-animation');
             }, 1000)
 
             
