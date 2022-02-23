@@ -32,7 +32,7 @@ function playMatch(){
                 compareHands(playerChoice, computerChoise);
                 incrementRound();
 
-                // Remove shadow
+                // Remove shadow and animation
                 this.classList.remove('user-hover');
                 playerHand.classList.remove('shake-player-animation');
                 computerHand.classList.remove('shake-computer-animation');
