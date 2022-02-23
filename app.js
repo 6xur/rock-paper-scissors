@@ -57,7 +57,9 @@ function nextMove(){
 
 function incrementRound(){
     const round = document.querySelector('.round');
-    var newRoundNumber = Number(round.textContent.slice(round.textContent.length - 1)) + 1;
+    // regex to find the number at the end of a string
+    var oldRoundNumber = parseInt(round.textContent.match(/\d+$/)[0], 10);
+    var newRoundNumber = oldRoundNumber + 1;
     round.textContent = "ROUND " + newRoundNumber;
 }
 
