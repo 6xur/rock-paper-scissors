@@ -94,21 +94,40 @@ function updateScores(playerMove, computerMove){
 
 // updates the history table
 function updateHistory(playerMove, roundNumber, computerMove){
-    const round = {playerMove: playerMove, roundNumber: roundNumber, computerMove: computerMove};
+    const winner = getWinner(playerMove, computerMove);
+    const round = {playerMove: playerMove, roundNumber: roundNumber, computerMove: computerMove, winner: winner};
     history.push(round);
     if(history.length > 3){
         history.shift();
     }
 
-    console.log(round);
+    //console.log(round);
 
     var i;
     for(i = 0; i < history.length; i++){
-         document.getElementById("player" + i).innerHTML = history[history.length - 1 - i].playerMove;
-         document.getElementById("round" + i).innerHTML = history[history.length - 1 - i].roundNumber;
-         document.getElementById("computer" + i).innerHTML = history[history.length - 1 - i].computerMove;
+        const round = history[history.length - 1 - i];
+        const player = document.getElementById("player" + i);
+        const computer =  document.getElementById("computer" + i);
+        const roundNumber = document.getElementById("round" + i);
+
+        // update winner text color
+        if(round.winner === "player"){
+            player.style.color = "yellow";
+            computer.style.color = "white";
+        } else if(round.winner === "computer"){
+            computer.style.color = "yellow";
+            player.style.color = "white";
+        } else {
+            computer.style.color = "white";
+            player.style.color = "white";
+        }
+
+        // update past rounds information
+        player.innerHTML = round.playerMove;
+        roundNumber.innerHTML = round.roundNumber;
+        computer.innerHTML = round.computerMove;
          
-         document.getElementById("row" + i).style = "visibility:visible;";
+        document.getElementById("row" + i).style = "visibility:visible;";
     }
 }
 
