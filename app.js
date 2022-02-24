@@ -1,48 +1,50 @@
 const history = [];
+var playerWins = 0;
+var computerWins = 0;
+var ties = 0;
 var roundNumber = 1;
 
-function playMatch(){
+function startGame(){
     const playerHand = document.querySelector('.player-hand');
     const computerHand = document.querySelector('.computer-hand');
-    
     const moves = Array.from(document.querySelectorAll('.moves div'));
+
     moves.forEach(move => {
         move.addEventListener('click', function(){
-            const computerChoice = nextMove();
-            const playerChoice = this.className;
+            const computerMove = aiMove();
+            const playerMove = this.className;  // must save class name first because we'll change it later
 
-            this.classList.add('user-hover');
+            // clicked effect for button
+            this.classList.add('user-clicked');
 
-            // Animation
+            // shaking animation
             playerHand.classList.add('shake-player-animation');
             computerHand.classList.add('shake-computer-animation');
 
+            // timeout set to 1000 because shaking animation takes 1s
             setTimeout(() =>{
                 // update hand images
-                setHand(playerHand, playerChoice);
-                setHand(computerHand, computerChoice);
+                setHand(playerHand, playerMove);
+                setHand(computerHand, computerMove);
 
-                // remove hover effect and animation
-                this.classList.remove('user-hover');
+                // remove clicked effect and animation after 1s
+                this.classList.remove('user-clicked');
                 playerHand.classList.remove('shake-player-animation');
                 computerHand.classList.remove('shake-computer-animation');
                 
-                updateHistory(playerChoice, roundNumber, computerChoice);
-                updateScores(playerChoice, computerChoice);
-                incrementRound();
+                updateHistory(playerMove, roundNumber, computerMove);
+                updateScores(playerMove, computerMove);
+                incrementRound();  // start of new round
             }, 1000)
-
-            
         });
     });
-
 }
 
-function setHand(hand, choice){
-    hand.src = `./assets/${choice}.png`;
+function setHand(hand, move){
+    hand.src = `./assets/${move}.png`;
 }
 
-function nextMove(){
+function aiMove(){
     const moves = ["rock", "paper", "scissors"];
     return moves[Math.floor(Math.random() * moves.length)];
 }
@@ -53,30 +55,44 @@ function incrementRound(){
     round.textContent = "ROUND " + roundNumber;
 }
 
-function updateScores(playerChoice, computerChoice){
-    const winPairs = {
+function getWinner(playerMove, computerMove){
+    const winAgainst = {
         "rock" : "scissors",
         "paper" : "rock",
         "scissors" : "paper"
     }
 
-    const losePairs = {
+    const loseTo = {
         "rock" : "paper",
         "paper" : "scissors",
         "scissors" : "rock"
     }
 
-    // Update scores
-    const playerWins = document.querySelector('.player-wins p');
-    const computerWins = document.querySelector('.computer-wins p');
-    const ties = document.querySelector('.ties p');
+    if(winAgainst[playerMove] === computerMove){  // player wins
+        return "player";
+    } else if(loseTo[playerMove] === computerMove){  // computer wins
+        return "computer";
+    } else{
+        return null;
+    }
+}
 
-    if(winPairs[playerChoice] === computerChoice){  // player wins
-        playerWins.textContent = Number(playerWins.textContent) + 1;
-    } else if(losePairs[playerChoice] === computerChoice){  // computer wins
-        computerWins.textContent = Number(computerWins.textContent) + 1;
-    } else{  // tie
-        ties.textContent = Number(ties.textContent) + 1;
+function updateScores(playerMove, computerMove){
+    const playerWinsText = document.querySelector('.player-wins p');
+    const computerWinsText = document.querySelector('.computer-wins p');
+    const tiesText = document.querySelector('.ties p');
+
+    const winner = getWinner(playerMove, computerMove);
+
+    if(winner === "player"){
+        playerWins++;
+        playerWinsText.textContent = playerWins;
+    } else if(winner === "computer"){
+        computerWins++;
+        computerWinsText.textContent = computerWins;
+    } else{
+        ties++;
+        tiesText.textContent = ties;
     }
 }
 
@@ -106,7 +122,7 @@ function updateHistory(playerChoice, roundNumber, computerChoice){
 
 
 function game(){
-    playMatch();
+    startGame();
 }
 
 // start the game function
