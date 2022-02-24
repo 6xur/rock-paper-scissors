@@ -1,3 +1,6 @@
+const history = [];
+var roundNumber = 1;
+
 function playMatch(){
     const hands = document.querySelectorAll('.hands img');
     const playerHand = document.querySelector('.player-hand');
@@ -12,7 +15,7 @@ function playMatch(){
     const moves = Array.from(document.querySelectorAll('.moves div'));
     moves.forEach(move => {
         move.addEventListener('click', function(){
-            const computerChoise = nextMove();
+            const computerChoice = nextMove();
             const playerChoice = this.className;
 
             this.classList.add('user-hover');
@@ -20,22 +23,22 @@ function playMatch(){
             // Animation
             playerHand.classList.add('shake-player-animation');
             computerHand.classList.add('shake-computer-animation');
-            //playerHand.style.animation = "shakePlayer 1s ease";
-            //computerHand.style.animation = "shakeComputer 1s ease";
 
             setTimeout(() =>{
                 // Update Images
                 playerHand.src = `./assets/${playerChoice}.png`;
-                computerHand.src = `./assets/${computerChoise}.png`;
-                
-                // update scores
-                compareHands(playerChoice, computerChoise);
-                incrementRound();
+                computerHand.src = `./assets/${computerChoice}.png`;
 
                 // Remove shadow and animation
                 this.classList.remove('user-hover');
                 playerHand.classList.remove('shake-player-animation');
                 computerHand.classList.remove('shake-computer-animation');
+                
+                setResult(playerChoice, roundNumber, computerChoice);
+
+                // update scores
+                getResult(playerChoice, computerChoice);
+                incrementRound();
             }, 1000)
 
             
@@ -51,37 +54,59 @@ function nextMove(){
 
 function incrementRound(){
     const round = document.querySelector('.round');
-    // regex to find the number at the end of a string
-    var oldRoundNumber = parseInt(round.textContent.match(/\d+$/)[0], 10);
-    var newRoundNumber = oldRoundNumber + 1;
-    round.textContent = "ROUND " + newRoundNumber;
+    roundNumber++;
+    round.textContent = "ROUND " + roundNumber;
 }
 
-function compareHands(playerChoice, computerChoice){
-    // Update text
-    const playerWins = document.querySelector('.player-wins p');
-    const computerWins = document.querySelector('.computer-wins p');
-    const ties = document.querySelector('.ties p');
-
-    const rpsWin = {
+function getResult(playerChoice, computerChoice){
+    const winPairs = {
         "rock" : "scissors",
         "paper" : "rock",
         "scissors" : "paper"
     }
 
-    const rpsLose = {
+    const losePairs = {
         "rock" : "paper",
         "paper" : "scissors",
         "scissors" : "rock"
     }
 
-    if(rpsWin[playerChoice] === computerChoice){  // player wins
+    // Update scores
+    const playerWins = document.querySelector('.player-wins p');
+    const computerWins = document.querySelector('.computer-wins p');
+    const ties = document.querySelector('.ties p');
+
+    if(winPairs[playerChoice] === computerChoice){  // player wins
         playerWins.textContent = Number(playerWins.textContent) + 1;
-    } else if(rpsLose[playerChoice] === computerChoice){  // computer wins
+    } else if(losePairs[playerChoice] === computerChoice){  // computer wins
         computerWins.textContent = Number(computerWins.textContent) + 1;
     } else{  // tie
         ties.textContent = Number(ties.textContent) + 1;
     }
+}
+
+// updates the history table
+function setResult(playerChoice, roundNumber, computerChoice){
+
+    const lastMove = {playerChoice: playerChoice, roundNumber: roundNumber, computerChoice: computerChoice};
+    history.push(lastMove);
+    if(history.length > 3){
+        history.shift();
+    }
+
+    console.log(lastMove);
+    //console.log(history);
+
+    const headerRow = document.querySelector("#rowh");
+     var i;
+     for(i = 0; i < history.length; i++){
+         document.getElementById("player" + i).innerHTML = history[history.length - 1 - i].playerChoice;
+         document.getElementById("round" + i).innerHTML = history[history.length - 1 - i].roundNumber;
+         document.getElementById("computer" + i).innerHTML = history[history.length - 1 - i].computerChoice;
+         
+         document.getElementById("row" + i).style = "visibility:visible;";
+     }    
+
 }
 
 

@@ -73,6 +73,16 @@ html {
     transform: rotateY(180deg);
 }
 
+table {
+  border-collapse: separate;
+  border-spacing: 50px 0;
+  color: white;
+}
+
+th {
+  padding: 10 0px;
+}
+
 @keyframes shakePlayer {
   
   0% {
