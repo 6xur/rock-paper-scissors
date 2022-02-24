@@ -50,9 +50,9 @@ function aiMove(){
 }
 
 function incrementRound(){
-    const round = document.querySelector('.round');
+    const roundText = document.querySelector('.round');
     roundNumber++;
-    round.textContent = "ROUND " + roundNumber;
+    roundText.textContent = "ROUND " + roundNumber;
 }
 
 function getWinner(playerMove, computerMove){
@@ -78,46 +78,38 @@ function getWinner(playerMove, computerMove){
 }
 
 function updateScores(playerMove, computerMove){
-    const playerWinsText = document.querySelector('.player-wins p');
-    const computerWinsText = document.querySelector('.computer-wins p');
-    const tiesText = document.querySelector('.ties p');
-
     const winner = getWinner(playerMove, computerMove);
 
     if(winner === "player"){
         playerWins++;
-        playerWinsText.textContent = playerWins;
+        document.querySelector('.player-wins p').textContent = playerWins;
     } else if(winner === "computer"){
         computerWins++;
-        computerWinsText.textContent = computerWins;
+        document.querySelector('.computer-wins p').textContent = computerWins;
     } else{
         ties++;
-        tiesText.textContent = ties;
+        document.querySelector('.ties p').textContent = ties;
     }
 }
 
 // updates the history table
-function updateHistory(playerChoice, roundNumber, computerChoice){
-
-    const lastMove = {playerChoice: playerChoice, roundNumber: roundNumber, computerChoice: computerChoice};
-    history.push(lastMove);
+function updateHistory(playerMove, roundNumber, computerMove){
+    const round = {playerMove: playerMove, roundNumber: roundNumber, computerMove: computerMove};
+    history.push(round);
     if(history.length > 3){
         history.shift();
     }
 
-    console.log(lastMove);
-    //console.log(history);
+    console.log(round);
 
-    const headerRow = document.querySelector("#rowh");
-     var i;
-     for(i = 0; i < history.length; i++){
-         document.getElementById("player" + i).innerHTML = history[history.length - 1 - i].playerChoice;
+    var i;
+    for(i = 0; i < history.length; i++){
+         document.getElementById("player" + i).innerHTML = history[history.length - 1 - i].playerMove;
          document.getElementById("round" + i).innerHTML = history[history.length - 1 - i].roundNumber;
-         document.getElementById("computer" + i).innerHTML = history[history.length - 1 - i].computerChoice;
+         document.getElementById("computer" + i).innerHTML = history[history.length - 1 - i].computerMove;
          
          document.getElementById("row" + i).style = "visibility:visible;";
-     }    
-
+    }
 }
 
 
