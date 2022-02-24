@@ -79,8 +79,9 @@ table {
   color: white;
 }
 
-th {
-  padding: 10 0px;
+th,
+td {
+  padding: 10px 0;
 }
 
 @keyframes shakePlayer {
