@@ -2,16 +2,9 @@ const history = [];
 var roundNumber = 1;
 
 function playMatch(){
-    const hands = document.querySelectorAll('.hands img');
     const playerHand = document.querySelector('.player-hand');
     const computerHand = document.querySelector('.computer-hand');
     
-    hands.forEach(hand =>{
-        hand.addEventListener('animationend', function(){
-            this.style.animation = '';
-        })
-    })
-
     const moves = Array.from(document.querySelectorAll('.moves div'));
     moves.forEach(move => {
         move.addEventListener('click', function(){
@@ -25,19 +18,17 @@ function playMatch(){
             computerHand.classList.add('shake-computer-animation');
 
             setTimeout(() =>{
-                // Update Images
-                playerHand.src = `./assets/${playerChoice}.png`;
-                computerHand.src = `./assets/${computerChoice}.png`;
+                // update hand images
+                setHand(playerHand, playerChoice);
+                setHand(computerHand, computerChoice);
 
-                // Remove shadow and animation
+                // remove hover effect and animation
                 this.classList.remove('user-hover');
                 playerHand.classList.remove('shake-player-animation');
                 computerHand.classList.remove('shake-computer-animation');
                 
-                setResult(playerChoice, roundNumber, computerChoice);
-
-                // update scores
-                getResult(playerChoice, computerChoice);
+                updateHistory(playerChoice, roundNumber, computerChoice);
+                updateScores(playerChoice, computerChoice);
                 incrementRound();
             }, 1000)
 
@@ -45,6 +36,10 @@ function playMatch(){
         });
     });
 
+}
+
+function setHand(hand, choice){
+    hand.src = `./assets/${choice}.png`;
 }
 
 function nextMove(){
@@ -58,7 +53,7 @@ function incrementRound(){
     round.textContent = "ROUND " + roundNumber;
 }
 
-function getResult(playerChoice, computerChoice){
+function updateScores(playerChoice, computerChoice){
     const winPairs = {
         "rock" : "scissors",
         "paper" : "rock",
@@ -86,7 +81,7 @@ function getResult(playerChoice, computerChoice){
 }
 
 // updates the history table
-function setResult(playerChoice, roundNumber, computerChoice){
+function updateHistory(playerChoice, roundNumber, computerChoice){
 
     const lastMove = {playerChoice: playerChoice, roundNumber: roundNumber, computerChoice: computerChoice};
     history.push(lastMove);
