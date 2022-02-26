@@ -75,13 +75,27 @@ html {
 
 table {
   border-collapse: separate;
-  border-spacing: 50px 0;
+  border-spacing: 10px 0;
   color: white;
 }
 
 th,
 td {
   padding: 10px 0;
+}
+
+th {
+  font-size: 30px;
+}
+
+td {
+  font-size: 20px;
+}
+
+#row0,
+#row1,
+#row2 {
+  visibility: hidden;
 }
 
 @keyframes shakePlayer {

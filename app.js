@@ -2,7 +2,7 @@ const history = [];
 var playerWins = 0;
 var computerWins = 0;
 var ties = 0;
-var roundNumber = 1;
+var round = 1;
 
 function startGame(){
     const playerHand = document.querySelector('.player-hand');
@@ -32,7 +32,7 @@ function startGame(){
                 playerHand.classList.remove('shake-player-animation');
                 computerHand.classList.remove('shake-computer-animation');
                 
-                updateHistory(playerMove, roundNumber, computerMove);
+                updateHistory(playerMove, round, computerMove);
                 updateScores(playerMove, computerMove);
                 incrementRound();  // start of new round
             }, 1000)
@@ -51,8 +51,8 @@ function aiMove(){
 
 function incrementRound(){
     const roundText = document.querySelector('.round');
-    roundNumber++;
-    roundText.textContent = "ROUND " + roundNumber;
+    round++;
+    roundText.textContent = "ROUND " + round;
 }
 
 function getWinner(playerMove, computerMove){
@@ -93,40 +93,43 @@ function updateScores(playerMove, computerMove){
 }
 
 // updates the history table
-function updateHistory(playerMove, roundNumber, computerMove){
+function updateHistory(playerMove, round, computerMove){
     const winner = getWinner(playerMove, computerMove);
-    const round = {playerMove: playerMove, roundNumber: roundNumber, computerMove: computerMove, winner: winner};
-    history.push(round);
+    const play = {playerMove: playerMove, round: round, computerMove: computerMove, winner: winner};
+
+    // limit the size of history to 3
+    history.push(play);
     if(history.length > 3){
         history.shift();
     }
 
-    //console.log(round);
+    //console.log(play);
 
     var i;
     for(i = 0; i < history.length; i++){
-        const round = history[history.length - 1 - i];
+        const play = history[history.length - 1 - i];
         const player = document.getElementById("player" + i);
         const computer =  document.getElementById("computer" + i);
-        const roundNumber = document.getElementById("round" + i);
+        const round = document.getElementById("round" + i);
 
         // update winner text color
-        if(round.winner === "player"){
+        if(play.winner === "player"){
             player.style.color = "yellow";
-            computer.style.color = "white";
-        } else if(round.winner === "computer"){
+            computer.style.color = "gainsboro";
+        } else if(play.winner === "computer"){
             computer.style.color = "yellow";
-            player.style.color = "white";
-        } else {
-            computer.style.color = "white";
-            player.style.color = "white";
+            player.style.color = "gainsboro";
+        } else {  // no color if tie
+            computer.style.color = "gainsboro";
+            player.style.color = "gainsboro";
         }
 
         // update past rounds information
-        player.innerHTML = round.playerMove;
-        roundNumber.innerHTML = round.roundNumber;
-        computer.innerHTML = round.computerMove;
-         
+        player.textContent = play.playerMove[0].toUpperCase();
+        round.textContent = play.round;
+        computer.textContent = play.computerMove[0].toUpperCase();
+        
+        // make each play visible as they are played
         document.getElementById("row" + i).style = "visibility:visible;";
     }
 }
