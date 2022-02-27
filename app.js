@@ -102,8 +102,7 @@ function updateHistory(playerMove, round, computerMove){
 
     //console.log(play);
 
-    var i;
-    for(i = 0; i < recentHistory.length; i++){
+    for(let i = 0; i < recentHistory.length; i++){
         const play = recentHistory[recentHistory.length - 1 - i];
         const player = document.getElementById("player" + i);
         const computer =  document.getElementById("computer" + i);
@@ -126,7 +125,7 @@ function updateHistory(playerMove, round, computerMove){
         round.textContent = play.round;
         computer.textContent = play.computerMove[0].toUpperCase();
         
-        // make each play visible as they are played
+        // make each play visible as they are played (initially insible)
         document.getElementById("row" + i).style = "visibility:visible;";
     }
 }
@@ -134,6 +133,7 @@ function updateHistory(playerMove, round, computerMove){
 
 function game(){
     startGame();
+    helloWorld();
 }
 
 // start the game function
