@@ -17,18 +17,18 @@ html {
 
 .round {
   margin: 0 auto;
-  color: #d72e45;
+  color: #e62649;
   font-size: 30px;
 }
 
 .scores h2 {
-  color: gainsboro;
+  color: #9a9da6;
   font-size: 20px;
 }
 
 .scores p {
   padding: 10px;
-  color: white;
+  color: #f6f6f6;
   font-size: 38px;
 }
 
@@ -65,7 +65,7 @@ html {
 
 .user-clicked { 
   scale: 1.01;
-  box-shadow: 0px 0px 10px white;
+  box-shadow: 0px 0px 10px #ffffff;
   pointer-events: none;
 }
 
@@ -75,8 +75,8 @@ html {
 
 table {
   border-collapse: separate;
-  border-spacing: 10px 0;
-  color: white;
+  
+  color: #f6f6f6;
 }
 
 th,
@@ -90,6 +90,7 @@ th {
 
 td {
   font-size: 20px;
+  font-weight: bold;
 }
 
 #row0,

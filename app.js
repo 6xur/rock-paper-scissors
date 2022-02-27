@@ -12,7 +12,7 @@ function startGame(){
     moves.forEach(move => {
         move.addEventListener('click', function(){
             const computerMove = aiMove();
-            const playerMove = this.className;  // must save class name first because we'll change it later
+            const playerMove = this.className;  // must save class name first because we'll add classes to it later
 
             // clicked effect for button
             this.classList.add('user-clicked');
@@ -97,31 +97,28 @@ function updateHistory(playerMove, round, computerMove){
     const winner = getWinner(playerMove, computerMove);
     const play = {playerMove: playerMove, round: round, computerMove: computerMove, winner: winner};
 
-    // limit the size of history to 3
     history.push(play);
-    if(history.length > 3){
-        history.shift();
-    }
+    const recentHistory = history.slice(-3);  // only saves the last 3 plays
 
     //console.log(play);
 
     var i;
-    for(i = 0; i < history.length; i++){
-        const play = history[history.length - 1 - i];
+    for(i = 0; i < recentHistory.length; i++){
+        const play = recentHistory[recentHistory.length - 1 - i];
         const player = document.getElementById("player" + i);
         const computer =  document.getElementById("computer" + i);
         const round = document.getElementById("round" + i);
 
         // update winner text color
         if(play.winner === "player"){
-            player.style.color = "yellow";
-            computer.style.color = "gainsboro";
+            player.style.color = "#e62649";
+            computer.style.color = "#9a9da6";
         } else if(play.winner === "computer"){
-            computer.style.color = "yellow";
-            player.style.color = "gainsboro";
+            computer.style.color = "#e62649";
+            player.style.color = "#9a9da6";
         } else {  // no color if tie
-            computer.style.color = "gainsboro";
-            player.style.color = "gainsboro";
+            computer.style.color = "#9a9da6";
+            player.style.color = "#9a9da6";
         }
 
         // update past rounds information
