@@ -11,7 +11,7 @@ function startGame(){
 
     moves.forEach(move => {
         move.addEventListener('click', function(){
-            const computerMove = aiMove();
+            const computerMove = randomMove();
             const playerMove = this.className;  // must save class name first because we'll add classes to it later
 
             // clicked effect for button
@@ -35,6 +35,9 @@ function startGame(){
                 updateHistory(playerMove, round, computerMove);
                 updateScores(playerMove, computerMove);
                 incrementRound();  // start of new round
+
+                sameNext(); 
+
             }, 1000)
         });
     });
@@ -42,11 +45,6 @@ function startGame(){
 
 function setHand(hand, move){
     hand.src = `./assets/${move}.png`;
-}
-
-function aiMove(){
-    const moves = ["rock", "paper", "scissors"];
-    return moves[Math.floor(Math.random() * moves.length)];
 }
 
 function incrementRound(){
@@ -133,7 +131,6 @@ function updateHistory(playerMove, round, computerMove){
 
 function game(){
     startGame();
-    helloWorld();
 }
 
 // start the game function
