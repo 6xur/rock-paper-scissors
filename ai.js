@@ -1,5 +1,4 @@
 const moves = ["rock", "paper", "scissors"];
-const moveSize = 3;
 
 winWeight = 1;
 tieWeight = 0;
@@ -18,22 +17,19 @@ function randomMove(){
   
 // returns the nth move after the given move, nextMove("rock", 2) = "scissors"
 function nextMove(move, n) {
-    var i = (moves.indexOf(move) + n) % moveSize;
+    var i = (moves.indexOf(move) + n) % moves.length;
     return moves[i];
 }
 
 // AI LOGIC 1
-// assuming that the player picks the same move after winning, the next move after losing
-// random move if tie
+// assuming that the player picks the same move after winning, the next move after losing or tie
 function sameNext(){
     var movePredict;
 
     if(history[history.length - 1].winner === "player"){
         movePredict = nextMove(history[history.length - 1].playerMove, 1);  // assuming player plays the same move so we play the next move
-    } else if(history[history.length - 1].winner === "computer"){
+    } else {
         movePredict = nextMove(history[history.length - 1].playerMove, 2); // assuming player plays the next move so we play the "next next" move
-    } else{
-        movePredict = randomMove();
     }
 
     console.log("sameNext used: " + movePredict);
