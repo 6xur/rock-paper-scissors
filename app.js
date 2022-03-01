@@ -11,7 +11,14 @@ function startGame(){
 
     moves.forEach(move => {
         move.addEventListener('click', function(){
-            const computerMove = randomMove();
+            
+            var computerMove;
+            if(history.length == 0){
+                computerMove = randomMove();
+            } else{
+                computerMove = sameNext();
+            }
+
             const playerMove = this.className;  // must save class name first because we'll add classes to it later
 
             // clicked effect for button
@@ -36,7 +43,7 @@ function startGame(){
                 updateScores(playerMove, computerMove);
                 incrementRound();  // start of new round
 
-                sameSame();
+                //sameSame();
 
             }, 1000)
         });
