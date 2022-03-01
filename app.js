@@ -20,8 +20,15 @@ function startGame(){
             } else{
                 const play = history[history.length - 1];
                 console.log(play);
-                computerMove = prevPrev(play);
+
+                // need to replace sameNext by an algorithm that chooses the AI with most wins
+                computerMove = sameNext();
+
+                // may seem like cheating here by using playerMove, however the computer has chosen an option a few lines above
+                // therefore the AI doesnt "know" about the player's current move when it made the choice
+                updateProbability(playerMove);
             }
+
 
             // clicked effect for button
             this.classList.add('user-clicked');
