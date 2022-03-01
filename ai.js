@@ -26,9 +26,9 @@ function sameNext(){
     console.log(play);
 
     if(play.winner === "player"){
-        movePredict = nextMove(play.playerMove, 1);
+        movePredict = nextMove(play.playerMove, 1);  // assuming player plays the same move so we play the next move
     } else if(play.winner === "computer"){
-        movePredict = nextMove(play.playerMove, 2);
+        movePredict = nextMove(play.playerMove, 2); // assuming player plays the next move so we play the "next next" move
     } else{
         movePredict = randomMove();
     }
@@ -41,5 +41,9 @@ function sameNext(){
 // AI LOGIC 2
 // assumes that the player always picks the next move R -> P -> S -> R -> ...
 function sameSame(){
-    
+    const play = history[history.length - 1];
+    var movePredict = nextMove(play.playerMove, 1);
+    console.log(play);
+    console.log(movePredict);
+    return movePredict;
 }

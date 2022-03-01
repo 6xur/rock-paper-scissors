@@ -36,7 +36,7 @@ function startGame(){
                 updateScores(playerMove, computerMove);
                 incrementRound();  // start of new round
 
-                sameNext(); 
+                sameSame();
 
             }, 1000)
         });
