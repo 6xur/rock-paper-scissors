@@ -69,6 +69,10 @@ html {
   pointer-events: none;
 }
 
+.disabled {
+  pointer-events: none;
+}
+
 .player-hand {
     transform: rotateY(180deg);
 }

@@ -11,18 +11,24 @@ function startGame(){
 
     moves.forEach(move => {
         move.addEventListener('click', function(){
-            
+            const playerMove = this.className;  // must save class name first because we'll add classes to it later
+
+            // AI choooses
             var computerMove;
             if(history.length == 0){
                 computerMove = randomMove();
             } else{
-                computerMove = sameNext();
+                const play = history[history.length - 1];
+                console.log(play);
+                computerMove = prevPrev(play);
             }
-
-            const playerMove = this.className;  // must save class name first because we'll add classes to it later
 
             // clicked effect for button
             this.classList.add('user-clicked');
+            // disable all buttons
+            moves.forEach(move => {
+                move.classList.add('disabled');
+            })
 
             // shaking animation
             playerHand.classList.add('shake-player-animation');
@@ -38,6 +44,11 @@ function startGame(){
                 this.classList.remove('user-clicked');
                 playerHand.classList.remove('shake-player-animation');
                 computerHand.classList.remove('shake-computer-animation');
+
+                // enable all the buttons
+                moves.forEach(move => {
+                    move.classList.remove('disabled');
+                })
                 
                 updateHistory(playerMove, round, computerMove);
                 updateScores(playerMove, computerMove);
@@ -134,7 +145,6 @@ function updateHistory(playerMove, round, computerMove){
         document.getElementById("row" + i).style = "visibility:visible;";
     }
 }
-
 
 function game(){
     startGame();
