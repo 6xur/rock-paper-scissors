@@ -4,15 +4,19 @@ winWeight = 1;
 tieWeight = 0;
 lossWeight = -1;
 
-var sn = 0;
-var ss = 0;
-var nn = 0;
-var pp = 0;
+
+var aiScores = new Map([
+    [sameNext, 0],
+    [sameSame, 0],
+    [nextNext, 0],
+    [prevPrev, 0]
+]);
 
 // need to keep this for now
 function randomMove(){
-    console.log("randomMove");
-    return moves[Math.floor(Math.random() * moves.length)];
+    const movePredict = moves[Math.floor(Math.random() * moves.length)];
+    console.log("randomMove: " + movePredict);
+    return movePredict;
 }
   
 // returns the nth move after the given move, nextMove("rock", 2) = "scissors"
@@ -61,7 +65,7 @@ function prevPrev(){
     return movePredict;
 }
 
-// IDK what playerMove is meant to be
+// playMove is the current player move, computerMove is the AI's move based on the last move that the user played
 function getWeight(playerMove, computerMove){
     var winner = getWinner(playerMove, computerMove);
     if(winner === "computer"){
@@ -79,15 +83,16 @@ function getWeight(playerMove, computerMove){
 // playerMove is the current player move, the AI's choose a move based on the last move that the user played
 function updateProbability(playerMove){  // SIMPLY UPDATE WINNING PROBABILITY AFTER USER PLAYS, need another function that chooses the ai with biggest winning probability
 
-    sn += getWeight(playerMove, sameNext());
-    console.log(sn);
+    for(let [ai, score] of aiScores){
+        const computerMove = ai();
+        aiScores.set(ai, score + getWeight(playerMove, computerMove));
+    }
 
-    ss += getWeight(playerMove, sameSame());
-    console.log(ss);
+    console.log(aiScores);
+}
 
-    nn += getWeight(playerMove, nextNext());
-    console.log(nn);
-
-    pp += getWeight(playerMove, prevPrev());
-    console.log(pp);
+// iterate through aiScores and choose the AI strategy that has the best chance of winning
+function chooseAI(){
+    const computerMove = ([...aiScores.entries()].reduce((a, e ) => e[1] > a[1] ? e : a))[0]();  // what is this?
+    return computerMove;
 }
