@@ -8,6 +8,7 @@ lossWeight = -1;
 var aiScores = new Map([
     [sameNext, 0],
     [sameSame, 0],
+    [samePrev, 0],
     [nextNext, 0],
     [prevPrev, 0]
 ]);
@@ -26,6 +27,33 @@ function nextMove(move, n) {
 }
 
 // AI LOGIC 1
+// Assuming that the player plays the same move if they won last round
+// the previous move if they lost or tie
+function samePrev(){
+    var movePredict;
+
+    if(history[history.length - 1].winner === "player"){
+        movePredict = nextMove(history[history.length - 1].playerMove, 1);  // assuming player plays the same move so we play the next move
+    } else {
+        movePredict = history[history.length - 1].playerMove; // assuming player plays the next move so we play the "next next" move
+    }
+
+    console.log("samePrev used: " + movePredict);
+    
+    return movePredict;
+
+}
+
+// AI LOGIC 2
+// assumes that the player always picks the same move
+function sameSame(){
+    var movePredict = nextMove(history[history.length - 1].playerMove, 1);
+    console.log("sameSame used: " + movePredict);
+    return movePredict;
+}
+
+
+// AI LOGIC 3
 // assuming that the player picks the same move after winning, the next move after losing or tie
 function sameNext(){
     var movePredict;
@@ -38,14 +66,6 @@ function sameNext(){
 
     console.log("sameNext used: " + movePredict);
 
-    return movePredict;
-}
-
-// AI LOGIC 2
-// assumes that the player always picks the same move
-function sameSame(){
-    var movePredict = nextMove(history[history.length - 1].playerMove, 1);
-    console.log("sameSame used: " + movePredict);
     return movePredict;
 }
 
