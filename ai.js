@@ -9,8 +9,12 @@ var aiScores = new Map([
     [sameNext, 0],
     [sameSame, 0],
     [samePrev, 0],
+    [nextPrev, 0],
+    [nextSame, 0],
     [nextNext, 0],
-    [prevPrev, 0]
+    [prevPrev, 0],
+    [prevSame, 0],
+    [prevNext, 0]
 ]);
 
 // need to keep this for now
@@ -59,9 +63,9 @@ function sameNext(){
     var movePredict;
 
     if(history[history.length - 1].winner === "player"){
-        movePredict = nextMove(history[history.length - 1].playerMove, 1);  // assuming player plays the same move so we play the next move
+        movePredict = nextMove(history[history.length - 1].playerMove, 1);
     } else {
-        movePredict = nextMove(history[history.length - 1].playerMove, 2); // assuming player plays the next move so we play the "next next" move
+        movePredict = nextMove(history[history.length - 1].playerMove, 2);
     }
 
     console.log("sameNext used: " + movePredict);
@@ -69,7 +73,39 @@ function sameNext(){
     return movePredict;
 }
 
-// AI LOGIC 3
+
+// AI LOGIC 4
+function nextPrev(){
+    var movePredict;
+
+    if(history[history.length - 1].winner === "player"){
+        movePredict = nextMove(history[history.length - 1].playerMove, 2);
+    } else {
+        movePredict = history[history.length - 1].playerMove;
+    }
+
+    console.log("nextPrev used: " + movePredict);
+
+    return movePredict;
+}
+
+
+// AI LOGIC 5
+function nextSame(){
+    var movePredict;
+
+    if(history[history.length - 1].winner === "player"){
+        movePredict = nextMove(history[history.length - 1].playerMove, 2);
+    } else {
+        movePredict = nextMove(history[history.length - 1].playerMove, 1);
+    }
+
+    console.log("nextSame used: " + movePredict);
+
+    return movePredict;
+}
+
+// AI LOGIC 6
 // assumes that hte player always pick the next move
 function nextNext(){
     var movePredict = nextMove(history[history.length - 1].playerMove, 2);
@@ -77,7 +113,7 @@ function nextNext(){
     return movePredict;
 }
 
-// AI LOGIC 4
+// AI LOGIC 7
 // assumes that the player always picks the previous move
 function prevPrev(){
     var movePredict = history[history.length - 1].playerMove;
@@ -86,7 +122,38 @@ function prevPrev(){
 }
 
 
-// TODO: Add all 9 logic and test
+// AI LOGIC 8
+function prevSame(){
+    var movePredict;
+
+    if(history[history.length - 1].winner === "player"){
+        movePredict =  history[history.length - 1].playerMove;
+    } else {
+        movePredict = nextMove(history[history.length - 1].playerMove, 1);
+    }
+
+    console.log("prevSame used: " + movePredict);
+
+    return movePredict;
+}
+
+
+// AI LOGIC 9
+function prevNext(){
+    var movePredict;
+
+    if(history[history.length - 1].winner === "player"){
+        movePredict =  history[history.length - 1].playerMove;
+    } else {
+        movePredict = nextMove(history[history.length - 1].playerMove, 2);
+    }
+
+    console.log("prevNext used: " + movePredict);
+
+    return movePredict;
+
+}
+
 
 // playMove is the current player move, computerMove is the AI's move based on the last move that the user played
 function getWeight(playerMove, computerMove){
