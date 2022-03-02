@@ -65,6 +65,9 @@ function prevPrev(){
     return movePredict;
 }
 
+
+// TODO: Add all 9 logic and test
+
 // playMove is the current player move, computerMove is the AI's move based on the last move that the user played
 function getWeight(playerMove, computerMove){
     var winner = getWinner(playerMove, computerMove);
@@ -93,6 +96,7 @@ function updateProbability(playerMove){  // SIMPLY UPDATE WINNING PROBABILITY AF
 
 // iterate through aiScores and choose the AI strategy that has the best chance of winning
 function chooseAI(){
-    const computerMove = ([...aiScores.entries()].reduce((a, e ) => e[1] > a[1] ? e : a))[0]();  // what is this?
+    const ai = ([...aiScores.entries()].reduce((a, e ) => e[1] > a[1] ? e : a))[0];
+    const computerMove = ai();  // find the highest value in the aiScores map and run the corresponding AI
     return computerMove;
 }

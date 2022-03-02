@@ -21,7 +21,7 @@ function startGame(){
                 const play = history[history.length - 1];
                 console.log(play);
 
-                // need to replace sameNext by an algorithm that chooses the AI with most wins
+                // chooses AI that has the highest chance of winning based on historical data
                 computerMove = chooseAI();
 
                 // may seem like cheating here by using playerMove, however the computer has chosen an option a few lines above
