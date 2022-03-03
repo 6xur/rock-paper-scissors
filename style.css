@@ -143,10 +143,10 @@ td {
 
 .shake-player-animation {
   content: url(./assets/rock.png);
-  animation: shakePlayer 1s ease;
+  animation: shakePlayer 0.1s ease;
 }
 
 .shake-computer-animation {
   content: url(./assets/rock.png);
-  animation: shakeComputer 1s ease;
+  animation: shakeComputer 0.1s ease;
 }

@@ -63,7 +63,7 @@ function startGame(){
 
                 //sameSame();
 
-            }, 1000)
+            }, 100)
         });
     });
 }
