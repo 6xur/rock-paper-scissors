@@ -4,7 +4,7 @@ winWeight = 1;
 tieWeight = 0;
 lossWeight = -1;
 
-
+// TODO: Change the value to a "forgetfull" list
 var aiScores = new Map([
     [sameNext, 0],
     [sameSame, 0],
@@ -17,22 +17,22 @@ var aiScores = new Map([
     [prevNext, 0]
 ]);
 
-// need to keep this for now
 function randomMove(){
     const movePredict = moves[Math.floor(Math.random() * moves.length)];
     console.log("randomMove: " + movePredict);
     return movePredict;
 }
   
-// returns the nth move after the given move, nextMove("rock", 2) = "scissors"
+// gets the nth move after the given move
+// e.g. nextMove("scissors", 2) = "paper"
 function nextMove(move, n) {
     var i = (moves.indexOf(move) + n) % moves.length;
     return moves[i];
 }
 
 // AI LOGIC 1
-// Assuming that the player plays the same move if they won last round
-// the previous move if they lost or tie
+// assumes that the player plays the same move if they won the last round,
+// and the previous move if they lost or tied
 function samePrev(){
     var movePredict;
 
@@ -41,8 +41,6 @@ function samePrev(){
     } else {
         movePredict = history[history.length - 1].playerMove; // assuming player plays the next move so we play the "next next" move
     }
-
-    console.log("samePrev used: " + movePredict);
     
     return movePredict;
 
@@ -52,13 +50,12 @@ function samePrev(){
 // assumes that the player always picks the same move
 function sameSame(){
     var movePredict = nextMove(history[history.length - 1].playerMove, 1);
-    console.log("sameSame used: " + movePredict);
     return movePredict;
 }
 
-
 // AI LOGIC 3
-// assuming that the player picks the same move after winning, the next move after losing or tie
+// assumes that the player plays the same move if they won the last round,
+// and the next move if they lost or tied
 function sameNext(){
     var movePredict;
 
@@ -68,11 +65,8 @@ function sameNext(){
         movePredict = nextMove(history[history.length - 1].playerMove, 2);
     }
 
-    console.log("sameNext used: " + movePredict);
-
     return movePredict;
 }
-
 
 // AI LOGIC 4
 function nextPrev(){
@@ -84,7 +78,6 @@ function nextPrev(){
         movePredict = history[history.length - 1].playerMove;
     }
 
-    console.log("nextPrev used: " + movePredict);
 
     return movePredict;
 }
@@ -100,24 +93,19 @@ function nextSame(){
         movePredict = nextMove(history[history.length - 1].playerMove, 1);
     }
 
-    console.log("nextSame used: " + movePredict);
 
     return movePredict;
 }
 
 // AI LOGIC 6
-// assumes that hte player always pick the next move
 function nextNext(){
     var movePredict = nextMove(history[history.length - 1].playerMove, 2);
-    console.log("nextNext used: " + movePredict);
     return movePredict;
 }
 
 // AI LOGIC 7
-// assumes that the player always picks the previous move
 function prevPrev(){
     var movePredict = history[history.length - 1].playerMove;
-    console.log("prevPrev used: " + movePredict);
     return movePredict;
 }
 
@@ -132,7 +120,6 @@ function prevSame(){
         movePredict = nextMove(history[history.length - 1].playerMove, 1);
     }
 
-    console.log("prevSame used: " + movePredict);
 
     return movePredict;
 }
@@ -148,14 +135,12 @@ function prevNext(){
         movePredict = nextMove(history[history.length - 1].playerMove, 2);
     }
 
-    console.log("prevNext used: " + movePredict);
-
     return movePredict;
 
 }
 
-
-// playMove is the current player move, computerMove is the AI's move based on the last move that the user played
+// playerMove is the player's current move
+// computerMove is the AI's move based on the last move that the player played
 function getWeight(playerMove, computerMove){
     var winner = getWinner(playerMove, computerMove);
     if(winner === "computer"){
@@ -169,9 +154,9 @@ function getWeight(playerMove, computerMove){
 
 // +1 if the AI would've won
 // -1 if the AI would've lost
-// do nothign if the AI would've tied
-// playerMove is the current player move, the AI's choose a move based on the last move that the user played
-function updateProbability(playerMove){  // SIMPLY UPDATE WINNING PROBABILITY AFTER USER PLAYS, need another function that chooses the ai with biggest winning probability
+// do nothing if the AI would've tied
+// update the scores of each AI model after the user plays
+function updateProbability(playerMove){
 
     for(let [ai, score] of aiScores){
         const computerMove = ai();

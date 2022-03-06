@@ -120,10 +120,8 @@ function updateHistory(playerMove, round, computerMove){
     const winner = getWinner(playerMove, computerMove);
     const play = {playerMove: playerMove, round: round, computerMove: computerMove, winner: winner};
 
-    history.push(play);
-    const recentHistory = history.slice(-3);  // only saves the last 3 plays
-
-    //console.log(play);
+    history.push(play);  // saves all the plays
+    const recentHistory = history.slice(-3);  // stores the last 3 plays
 
     for(let i = 0; i < recentHistory.length; i++){
         const play = recentHistory[recentHistory.length - 1 - i];
