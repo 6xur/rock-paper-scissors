@@ -6,15 +6,15 @@ lossWeight = -1;
 
 // TODO: Change the value to a "forgetfull" list
 var aiScores = new Map([
-    [sameNext, 0],
-    [sameSame, 0],
-    [samePrev, 0],
-    [nextPrev, 0],
-    [nextSame, 0],
-    [nextNext, 0],
-    [prevPrev, 0],
-    [prevSame, 0],
-    [prevNext, 0]
+    [sameNext, []],
+    [sameSame, []],
+    [samePrev, []],
+    [nextPrev, []],
+    [nextSame, []],
+    [nextNext, []],
+    [prevPrev, []],
+    [prevSame, []],
+    [prevNext, []]
 ]);
 
 function randomMove(){
@@ -115,22 +115,42 @@ function getWeight(playerMove, computerMove){
 // do nothing if the AI would've tied
 // update the scores of each AI model after the user plays
 function updateProbability(playerMove){
-    for(let [ai, score] of aiScores){
+    for(let [ai, scores] of aiScores){
         const computerMove = ai();
-        aiScores.set(ai, score + getWeight(playerMove, computerMove));
+        const weight = getWeight(playerMove, computerMove);
+        scores.push(weight);
+
+        if(scores.length > 5){
+            scores.shift(); 
+        }
+
+        aiScores.set(ai, scores);
     }
     
-    console.log(aiScores);
+    // print each ai and their scores
+    for(let[ai, scores] of aiScores.entries()){
+        console.log(ai, scores.reduce((a, b) => a + b, 0));
+    }
 }
 
 // iterate through aiScores and choose the AI strategy that has the best chance of winning
 function chooseAI(){
-    
-    const ai = ([...aiScores.entries()].reduce((a, e ) => e[1] > a[1] ? e : a))[0];
-    const computerMove = ai();  // find the highest value in the aiScores map and run the corresponding AI
+    var maxAI;
+    var maxScore = -1;
+
+    // find the highest value in the aiScores map and run the corresponding AI
+    for(let [ai, scores] of aiScores){
+        const sum = scores.reduce((a, b) => a + b, 0);
+
+        if(sum > maxScore){
+            maxAI = ai;
+            maxScore = sum;
+        }
+    }
+
+    console.log("using", maxAI);
+    const computerMove = maxAI();
+    //console.log("using " + maxAI);
     return computerMove;
 
 }
-
-// IDEA: Store strategies as strings inside the map instead of functions, then have a separate AI
-// function that excutes these strategies by reading them in
