@@ -26,7 +26,7 @@ function startGame(){
 
                 // may seem like cheating here by using playerMove, however the computer has chosen an option a few lines above
                 // therefore the AI doesnt "know" about the player's current move when it made the choice
-                updateProbability(playerMove);
+                updateAIScores(playerMove);
             }
 
 
@@ -60,8 +60,6 @@ function startGame(){
                 updateHistory(playerMove, round, computerMove);
                 updateScores(playerMove, computerMove);
                 incrementRound();  // start of new round
-
-                //sameSame();
 
             }, 100)
         });
@@ -152,8 +150,8 @@ function updateHistory(playerMove, round, computerMove){
 }
 
 function game(){
+    // TODO: Add start button
     startGame();
 }
 
-// start the game function
 game();

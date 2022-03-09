@@ -4,7 +4,6 @@ winWeight = 1;
 tieWeight = 0;
 lossWeight = -1;
 
-// TODO: Change the value to a "forgetfull" list
 var aiScores = new Map([
     [sameNext, []],
     [sameSame, []],
@@ -20,17 +19,20 @@ var aiScores = new Map([
 function randomMove(){
     return moves[Math.floor(Math.random() * moves.length)];
 }
-  
-// gets the nth move after the given move
-// e.g. nextMove("scissors", 2) = "paper"
+
+/*
+Returns the nth move after the given move
+nextMove("scissors", 2) = "paper"
+*/
 function nextMove(move, n) {
     return moves[(moves.indexOf(move) + n) % moves.length];
 }
 
-
-// AI LOGIC 1
-// assumes that the player plays the same move if they won the last round,
-// and the previous move if they lost or tied
+/*
+AI logic 1
+assuming that the player plays the same move if they won in the last round,
+and the previous move if they lost or tied
+*/
 function samePrev(){
     if(history[history.length - 1].winner === "player"){
         return nextMove(history[history.length - 1].playerMove, 1);  // assuming player plays the same move so we play the next move
@@ -38,15 +40,19 @@ function samePrev(){
     return history[history.length - 1].playerMove; // assuming player plays the previous move so we play the move they played
 }
 
-// AI LOGIC 2
-// assumes that the player always picks the same move
+/*
+AI logic 2
+assuming that the player always picks the same move
+*/
 function sameSame(){
     return nextMove(history[history.length - 1].playerMove, 1);
 }
 
-// AI LOGIC 3
-// assumes that the player plays the same move if they won the last round,
-// and the next move if they lost or tied
+/*
+AI logic 3
+assuming that the player plays the same move if they in won the last round,
+and the next move if they lost or tied
+*/
 function sameNext(){
     if(history[history.length - 1].winner === "player"){
         return nextMove(history[history.length - 1].playerMove, 1);
@@ -54,7 +60,7 @@ function sameNext(){
     return nextMove(history[history.length - 1].playerMove, 2);
 }
 
-// AI LOGIC 4
+// AI logic 4
 function nextPrev(){
     if(history[history.length - 1].winner === "player"){
         return nextMove(history[history.length - 1].playerMove, 2);
@@ -62,8 +68,7 @@ function nextPrev(){
     return history[history.length - 1].playerMove;
 }
 
-
-// AI LOGIC 5
+// AI logic 5
 function nextSame(){
     if(history[history.length - 1].winner === "player"){
         return nextMove(history[history.length - 1].playerMove, 2);
@@ -71,17 +76,17 @@ function nextSame(){
     return nextMove(history[history.length - 1].playerMove, 1);
 }
 
-// AI LOGIC 6
+// AI logic 6
 function nextNext(){
     return nextMove(history[history.length - 1].playerMove, 2);
 }
 
-// AI LOGIC 7
+// AI logic 7
 function prevPrev(){
     return history[history.length - 1].playerMove;
 }
 
-// AI LOGIC 8
+// AI logic 8
 function prevSame(){
     if(history[history.length - 1].winner === "player"){
         return history[history.length - 1].playerMove;
@@ -89,7 +94,7 @@ function prevSame(){
     return nextMove(history[history.length - 1].playerMove, 1);
 }
 
-// AI LOGIC 9
+// AI logic 9
 function prevNext(){
     if(history[history.length - 1].winner === "player"){
         return history[history.length - 1].playerMove;
@@ -97,8 +102,10 @@ function prevNext(){
     return nextMove(history[history.length - 1].playerMove, 2);
 }
 
-// playerMove is the player's current move
-// computerMove is the AI's move based on the last move that the player played
+/*
+playerMove is the player's current move
+computerMove is the AI's move based on the last move by the player
+*/
 function getWeight(playerMove, computerMove){
     var winner = getWinner(playerMove, computerMove);
     if(winner === "computer"){
@@ -110,16 +117,19 @@ function getWeight(playerMove, computerMove){
     }
 }
 
-// +1 if the AI would've won
-// -1 if the AI would've lost
-// do nothing if the AI would've tied
-// update the scores of each AI model after the user plays
-function updateProbability(playerMove){
+/*
+Update the score of each AI model after the playes plays a move
++1 if the AI would've won
+-1 if the AI would've lost
+0 if the AI would've tied
+*/
+function updateAIScores(playerMove){
     for(let [ai, scores] of aiScores){
         const computerMove = ai();
         const weight = getWeight(playerMove, computerMove);
         scores.push(weight);
 
+        // only store scores from the last 5 plays
         if(scores.length > 5){
             scores.shift(); 
         }
@@ -127,30 +137,27 @@ function updateProbability(playerMove){
         aiScores.set(ai, scores);
     }
     
-    // print each ai and their scores
+    // print each AI and their scores as a number
     for(let[ai, scores] of aiScores.entries()){
         console.log(ai, scores.reduce((a, b) => a + b, 0));
     }
 }
 
-// iterate through aiScores and choose the AI strategy that has the best chance of winning
+// Chooses the strategy that has the best chance of winning
 function chooseAI(){
     var maxAI;
     var maxScore = -1;
 
-    // find the highest value in the aiScores map and run the corresponding AI
     for(let [ai, scores] of aiScores){
-        const sum = scores.reduce((a, b) => a + b, 0);
+        const score = scores.reduce((a, b) => a + b, 0);
 
-        if(sum > maxScore){
+        if(score > maxScore){
             maxAI = ai;
-            maxScore = sum;
+            maxScore = score;
         }
     }
 
     console.log("using", maxAI);
     const computerMove = maxAI();
-    //console.log("using " + maxAI);
     return computerMove;
-
 }
