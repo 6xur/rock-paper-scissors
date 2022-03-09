@@ -4,16 +4,17 @@ winWeight = 1;
 tieWeight = 0;
 lossWeight = -1;
 
+// TODO: pick the AI that has the highest winning ratio
 var aiScores = new Map([
-    [sameNext, []],
-    [sameSame, []],
-    [samePrev, []],
+    [prevPrev, []],
+    [prevSame, []],
+    [prevNext, []],
     [nextPrev, []],
     [nextSame, []],
     [nextNext, []],
-    [prevPrev, []],
-    [prevSame, []],
-    [prevNext, []]
+    [sameNext, []],
+    [sameSame, []],
+    [samePrev, []],
 ]);
 
 function randomMove(){
@@ -130,7 +131,7 @@ function updateAIScores(playerMove){
         scores.push(weight);
 
         // only store scores from the last 5 plays
-        if(scores.length > 5){
+        if(scores.length > 10){
             scores.shift(); 
         }
 
@@ -146,7 +147,7 @@ function updateAIScores(playerMove){
 // Chooses the strategy that has the best chance of winning
 function chooseAI(){
     var maxAI;
-    var maxScore = -1;
+    var maxScore = -99999;  // placeholder
 
     for(let [ai, scores] of aiScores){
         const score = scores.reduce((a, b) => a + b, 0);
