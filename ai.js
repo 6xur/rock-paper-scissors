@@ -1,10 +1,10 @@
 const moves = ["rock", "paper", "scissors"];
 
 winWeight = 1;
-tieWeight = 0;
-lossWeight = -1;
+lossWeight = 0;
 
-// TODO: pick the AI that has the highest winning ratio
+// aiScores stores functions as keys,
+// and arrays as values, the arrays store the performance of each AI strategy in the last 10 plays
 var aiScores = new Map([
     [prevPrev, []],
     [prevSame, []],
@@ -111,10 +111,8 @@ function getWeight(playerMove, computerMove){
     var winner = getWinner(playerMove, computerMove);
     if(winner === "computer"){
         return winWeight;
-    } else if(winner === "player"){
-        return lossWeight;
     } else{
-        return tieWeight;
+        return lossWeight;
     }
 }
 
@@ -130,35 +128,42 @@ function updateAIScores(playerMove){
         const weight = getWeight(playerMove, computerMove);
         scores.push(weight);
 
-        // only store scores from the last 5 plays
+        // only store scores from the last 10 plays
         if(scores.length > 10){
             scores.shift(); 
         }
 
         aiScores.set(ai, scores);
     }
-    
-    // print each AI and their scores as a number
-    for(let[ai, scores] of aiScores.entries()){
-        console.log(ai, scores.reduce((a, b) => a + b, 0));
-    }
 }
 
-// Chooses the strategy that has the best chance of winning
+// Chooses the strategy that has the highest winning ratio
 function chooseAI(){
-    var maxAI;
-    var maxScore = -99999;  // placeholder
+    var bestAI = sameSame;  // place holder
+    var aiScoreTotal = 0;
+    var maxWinRatio = 0;
 
+    // calculate the total score
     for(let [ai, scores] of aiScores){
-        const score = scores.reduce((a, b) => a + b, 0);
+        aiScoreTotal += scores.reduce((a, b) => a + b, 0);
+    }
 
-        if(score > maxScore){
-            maxAI = ai;
-            maxScore = score;
+    // calculate winning ratio for each strategy and save the best one
+    for(let [ai, scores] of aiScores){
+        const winRatio = scores.reduce((a, b) => a + b, 0) / aiScoreTotal;
+        if(winRatio > maxWinRatio){
+            bestAI = ai;
+            maxWinRatio = winRatio;
         }
     }
 
-    console.log("using", maxAI);
-    const computerMove = maxAI();
-    return computerMove;
+    console.log("using", bestAI);
+
+    // print each AI and their winning ratio
+    // prevNext() 33.33% means that the prevNext strategy accounts for 1/3 of all wins
+    for(let[ai, scores] of aiScores.entries()){
+        console.log(ai, (scores.reduce((a, b) => a + b, 0) / aiScoreTotal * 100).toFixed(2) + "%");
+    }
+
+    return bestAI();
 }
