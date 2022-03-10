@@ -61,7 +61,7 @@ function startGame(){
                 updateScores(playerMove, computerMove);
                 incrementRound();  // start of new round
 
-            }, 100)
+            }, 800)
         });
     });
 }
