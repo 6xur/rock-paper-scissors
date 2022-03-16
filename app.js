@@ -19,9 +19,10 @@ function startGame(){
                 computerMove = randomMove();
             } else{
                 const play = history[history.length - 1];
-                console.log(play);
+                console.log()
+                console.log("last play: ", play);
 
-                // chooses AI that has the highest chance of winning based on historical data
+                // chooses AI that has the best chance of winning based on historical data
                 computerMove = chooseAI();
 
                 // may seem like cheating here by using playerMove, however the computer has chosen an option a few lines above
@@ -150,7 +151,6 @@ function updateHistory(playerMove, round, computerMove){
 }
 
 function game(){
-    // TODO: Add start button
     startGame();
 }
 
