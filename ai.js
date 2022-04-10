@@ -3,8 +3,8 @@ const moves = ["rock", "paper", "scissors"];
 winWeight = 1;
 lossWeight = 0;
 
-// aiScores stores functions as keys,
-// and arrays as values, the arrays store the performance of each AI strategy in the last 10 plays
+// AI name as keys
+// Each array stores the score of its respective AI
 var aiScores = new Map([
     [prevPrev, []],
     [prevSame, []],
@@ -31,29 +31,26 @@ function nextMove(move, n) {
 
 /*
 AI logic 1
-assuming that the player plays the same move if they won in the last round,
-and the previous move if they lost or tied
+Assume that the human player plays the same move if they won the last round,
+the previous move if they lost or tied
 */
 function samePrev(){
     if(history[history.length - 1].winner === "player"){
-        return nextMove(history[history.length - 1].playerMove, 1);  // assuming player plays the same move so we play the next move
+        return nextMove(history[history.length - 1].playerMove, 1);  // player plays the same move so AI plays the next move
     }
-    return history[history.length - 1].playerMove; // assuming player plays the previous move so we play the move they played
+    return history[history.length - 1].playerMove; // Player plays the previous move so AI play the move they last played
 }
 
 /*
 AI logic 2
-assuming that the player always picks the same move
+Assume that the player always picks the same move
 */
 function sameSame(){
     return nextMove(history[history.length - 1].playerMove, 1);
 }
 
-/*
-AI logic 3
-assuming that the player plays the same move if they in won the last round,
-and the next move if they lost or tied
-*/
+
+// AI logic 3
 function sameNext(){
     if(history[history.length - 1].winner === "player"){
         return nextMove(history[history.length - 1].playerMove, 1);
@@ -104,8 +101,9 @@ function prevNext(){
 }
 
 /*
-playerMove is the player's current move
-computerMove is the AI's move based on the last move by the player
+Return 1 if AI wins, 0 if AI loses or draws
+playerMove: the player's current move
+computerMove: AI's move based on the last move by the player
 */
 function getWeight(playerMove, computerMove){
     var winner = getWinner(playerMove, computerMove);
@@ -117,7 +115,7 @@ function getWeight(playerMove, computerMove){
 }
 
 /*
-Update the score of each AI model after the playes plays a move
+Update the score of AI models after the player plays a move
 +1 if the AI would've won
 -1 if the AI would've lost
 0 if the AI would've tied
@@ -128,7 +126,7 @@ function updateAIScores(playerMove){
         const weight = getWeight(playerMove, computerMove);
         scores.push(weight);
 
-        // only store scores from the last 10 plays
+        // Only save scores from the last 10 plays
         if(scores.length > 10){
             scores.shift(); 
         }
@@ -137,18 +135,18 @@ function updateAIScores(playerMove){
     }
 }
 
-// Chooses the strategy that has the highest winning ratio
+// Choose the strategy with the highest winning ratio
 function chooseAI(){
     var bestAI = sameSame;  // place holder
     var aiScoreTotal = 0;
     var maxWinRatio = 0;
 
-    // calculate the total score
+    // Calculate the total score
     for(let [ai, scores] of aiScores){
         aiScoreTotal += scores.reduce((a, b) => a + b, 0);
     }
 
-    // calculate winning ratio for each strategy and save the best one
+    // Calculate winning ratio for each strategy and save the best one
     for(let [ai, scores] of aiScores){
         const winRatio = scores.reduce((a, b) => a + b, 0) / aiScoreTotal;
         if(winRatio > maxWinRatio){
@@ -159,7 +157,7 @@ function chooseAI(){
 
     console.log("using", bestAI);
 
-    // print each AI and their winning ratio
+    // Print each strategy and their winning ratio
     // prevNext() 33.33% means that the prevNext strategy accounts for 1/3 of all wins
     for(let[ai, scores] of aiScores.entries()){
         console.log(ai, (scores.reduce((a, b) => a + b, 0) / aiScoreTotal * 100).toFixed(2) + "%");
